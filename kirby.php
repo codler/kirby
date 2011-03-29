@@ -821,7 +821,16 @@ class db {
 
 		$output = array();
 		foreach($array AS $field => $value) {
-			$output[] = $field . ' = \'' . self::escape($value) . '\'';
+            if (is_string($value)){
+            
+                $output[] = $field . ' = \'' . self::escape($value) . '\'';
+            }else if(is_array($value)){
+                $output[] = $field . ' IN (' . implode(',',$value) . ')';
+            
+            }else{
+                $output[] = $field . ' = ' . self::escape($value) . '';
+            }
+
 			$separator = ' ' . $method . ' ';
 		}
 		return implode(' ' . $method . ' ', $output);
