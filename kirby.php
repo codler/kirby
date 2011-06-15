@@ -912,14 +912,22 @@ class db {
 
 		$output = array();
 		foreach($array AS $field => $value) {
-			if (is_string($value)) {
-				$output[] = $field . ' = \'' . self::escape($value) . '\'';
-			} else if(is_array($value)) {
-				$output[] = $field . ' IN (' . implode(',',$value) . ')';
-			} else {
-				$output[] = $field . ' = ' . self::escape($value) . '';
+			$operand = '=';
+			$operand2 = 'IN';
+			if (substr($field, -1) == '!') {
+				$operand = '!=';
+				$operand2 = 'NOT IN';
+			} else if (substr($field, -1) == '?') {
+				$operand = 'LIKE';
 			}
-
+			
+			if (is_string($value)) {
+				$output[] = $field . ' ' . $operand . ' \'' . self::escape($value) . '\'';
+			} else if(is_array($value)) {
+				$output[] = $field . ' ' . $operand2 . ' (' . implode(',', $value) . ')';
+			} else {
+				$output[] = $field . ' ' . $operand . ' ' . self::escape($value) . '';
+			}
 			$separator = ' ' . $method . ' ';
 		}
 		return implode(' ' . $method . ' ', $output);
