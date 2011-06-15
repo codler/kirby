@@ -1,6 +1,6 @@
 <?php
 
-c::set('version', 0.6);
+c::set('version', 0.7);
 c::set('language', 'en');
 c::set('charset', 'utf-8');
 c::set('root', dirname(__FILE__));
@@ -185,8 +185,7 @@ class a {
 	}
 
 	function random($array) {
-		$keys = array_keys($array);
-		return $array[$keys[rand(0, count($keys) - 1)]];
+		return $array[array_rand($array)];
 	}
 
 	function search($array, $search) {
@@ -913,15 +912,13 @@ class db {
 
 		$output = array();
 		foreach($array AS $field => $value) {
-            if (is_string($value)){
-            
-                $output[] = $field . ' = \'' . self::escape($value) . '\'';
-            }else if(is_array($value)){
-                $output[] = $field . ' IN (' . implode(',',$value) . ')';
-            
-            }else{
-                $output[] = $field . ' = ' . self::escape($value) . '';
-            }
+			if (is_string($value)) {
+				$output[] = $field . ' = \'' . self::escape($value) . '\'';
+			} else if(is_array($value)) {
+				$output[] = $field . ' IN (' . implode(',',$value) . ')';
+			} else {
+				$output[] = $field . ' = ' . self::escape($value) . '';
+			}
 
 			$separator = ' ' . $method . ' ';
 		}
