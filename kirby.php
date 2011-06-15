@@ -184,6 +184,11 @@ class a {
 		return array_pop($array);
 	}
 
+	function random($array) {
+		$keys = array_keys($array);
+		return $array[$keys[rand(0, count($keys) - 1)]];
+	}
+
 	function search($array, $search) {
 		return preg_grep('#' . preg_quote($search) . '#i' , $array);
 	}
