@@ -1362,7 +1362,8 @@ class s {
 	}
 
 	function remove($key) {
-		return a::remove(&$_SESSION, $key, true);
+		unset($_SESSION[$key]);
+		return $_SESSION;
 	}
 
 	function start() {
