@@ -919,8 +919,10 @@ class db {
 			if (substr($field, -1) == '!') {
 				$operand = '!=';
 				$operand2 = 'NOT IN';
+				$field = substr($field, 0, -1);
 			} else if (substr($field, -1) == '?') {
 				$operand = 'LIKE';
+				$field = substr($field, 0, -1);
 			}
 			
 			if (is_string($value)) {
