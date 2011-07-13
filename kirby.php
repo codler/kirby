@@ -926,11 +926,11 @@ class db {
 			}
 			
 			if (is_string($value)) {
-				$output[] = $field . ' ' . $operand . ' \'' . self::escape($value) . '\'';
+				$output[] = '`' . $field . '`' . ' ' . $operand . ' \'' . self::escape($value) . '\'';
 			} else if(is_array($value)) {
-				$output[] = $field . ' ' . $operand2 . ' (' . implode(',', $value) . ')';
+				$output[] = '`' . $field . '`' . ' ' . $operand2 . ' (' . implode(',', $value) . ')';
 			} else {
-				$output[] = $field . ' ' . $operand . ' ' . self::escape($value) . '';
+				$output[] = '`' . $field . '`' . ' ' . $operand . ' ' . self::escape($value) . '';
 			}
 			$separator = ' ' . $method . ' ';
 		}
