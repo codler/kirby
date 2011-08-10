@@ -1371,7 +1371,11 @@ class s {
 	}
 
 	function start() {
-		@session_start();
+		$session_id = r::get(session_name(), '');
+    if($session_id != '') {
+      session_id($session_id);
+    }
+    @session_start();
 	}
 
 	function destroy() {
