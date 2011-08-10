@@ -1711,16 +1711,27 @@ class str {
 
 	function urlify($text) {
 		$text = trim($text);
+		$text = utf8_decode($text);
+		$text = html_entity_decode($text);
 		$text = str::lower($text);
-		$text = str_replace('ä', 'ae', $text);
-		$text = str_replace('å', 'a', $text);
-		$text = str_replace('ö', 'oe', $text);
-		$text = str_replace('ü', 'ue', $text);
-		$text = str_replace('ß', 'ss', $text);
-		$text = preg_replace("![^a-z0-9]!i","-", $text);
-		$text = preg_replace("![-]{2,}!","-", $text);
-		$text = preg_replace("!-$!","", $text);
-		return $text;
+	 
+		$a = 'ÀÁÂÃÄÅàáâãäåÒÓÔÕÖØòóôõöøÈÉÊËèéêëÇçÌÍÎÏìíîïÙÚÛÜùúûüÿÑñ';
+		$b = 'AAAAAAaaaaaaOOOOOOooooooEEEEeeeeCcIIIIiiiiUUUUuuuuyNn';
+		$text = strtr($text, utf8_decode($a), $b);
+	 
+		$ponctu = array("?", ".", "!", ",");
+		$string = str_replace($ponctu, "", $text);
+	 
+		$text = trim($text);
+		$text = preg_replace('/[^a-z0-9]+/i', '-', $text);
+		$text = preg_replace('/-+/', '-', $text);
+		$text = preg_replace('/-$/', '', $text);
+	 
+		if(empty($text)) {
+			return 'n-a';
+		}
+	 
+		return utf8_encode($text);
 	}
 
 	function split($string, $separator=',', $length=1) {
