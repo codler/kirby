@@ -1710,16 +1710,17 @@ class str {
 	}
 
 	function urlify($text) {
-		$text = trim($text);
+		$foreign = array(
+			'/À|Á|Â|Ã|Ä|Å|Ǻ|Ā|Ă|Ą|Ǎ|А/' => 'A',
+			'/à|á|â|ã|ä|å|ǻ|ā|ă|ą|ǎ|ª|а/' => 'a',
+			'/Ò|Ó|Ô|Õ|Ō|Ŏ|Ǒ|Ő|Ơ|Ø|Ǿ|О/' => 'O',
+			'/ò|ó|ô|õ|ō|ŏ|ǒ|ő|ơ|ø|ǿ|º|о/' => 'o',
+		);
+		$text = preg_replace(array_keys($foreign), array_values($foreign), $text);
 		$text = str::lower($text);
-		$text = str_replace('ä', 'a', $text);
-		$text = str_replace('å', 'a', $text);
-		$text = str_replace('ö', 'o', $text);
-		$text = str_replace('ü', 'ue', $text);
-		$text = str_replace('ß', 'ss', $text);
 		$text = preg_replace("![^a-z0-9]!i","-", $text);
 		$text = preg_replace("![-]{2,}!","-", $text);
-		$text = preg_replace("!-$!","", $text);
+		$text = trim($text, '-');
 		return $text;
 	}
 
