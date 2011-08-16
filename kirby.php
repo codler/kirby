@@ -1663,15 +1663,18 @@ class str {
 		else return $many;
 	}
 
-	function substr($str,$start) {
-		preg_match_all('/./u', $str, $ar);
-		if(func_num_args() >= 3) {
-			 $end = func_get_arg(2);
-			 return join('',array_slice($ar[0],$start,$end));
-		} else {
-			 return join('',array_slice($ar[0],$start));
-		}
-	}
+  /**
+   * Get part of a string
+   *
+   * @param string The string being checked
+   * @param integer The first position used in str
+   * @param integer The maximum length of the returned string
+   *
+   * @return string
+   */
+  function substr($str, $start, $end = null) {
+    return mb_substr($str, $start, ($end == null) ? mb_strlen($str, 'UTF-8') : $end, 'UTF-8');
+  }
 
 	function lower($str) {
 		return mb_strtolower($str, 'UTF-8');
