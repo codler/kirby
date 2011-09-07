@@ -1,6 +1,6 @@
 <?php
 
-require_once('../kirby.php');
+require_once(dirname(__file__) . '/../kirby.php');
 
 class SessionTest extends UnitTestCase {
 
