@@ -1,6 +1,6 @@
 <?php
 
-c::set('version', 0.7);
+c::set('version', 0.8);
 c::set('language', 'en');
 c::set('charset', 'utf-8');
 c::set('root', dirname(__FILE__));
